@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/Screens/loginStart.dart';
-import 'package:othewise/Screens/principale.dart';
+import 'package:othewise/screens/loginStart.dart';
+import 'package:othewise/screens/principale.dart';
 import 'package:othewise/components/bouton.dart';
 import 'package:othewise/components/constants.dart';
 import 'package:othewise/components/textField.dart';

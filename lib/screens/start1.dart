@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:othewise/components/bouton.dart';
 import 'package:othewise/components/constants.dart';
-import 'package:othewise/Screens/start2.dart';
+import 'package:othewise/screens/start2.dart';
 
 class StartedPage extends StatelessWidget {
   static const String id = "statedPage";

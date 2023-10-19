@@ -1,6 +1,6 @@
 import 'package:introduction_slider/introduction_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:othewise/Screens/loginStart.dart';
+import 'package:othewise/screens/loginStart.dart';
 import 'package:othewise/components/constants.dart';
 
 class OnBoarding extends StatelessWidget {
