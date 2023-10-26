@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/components/constants.dart';
+import 'package:otherwise/components/constants.dart';
 
 class OptionConnex extends StatelessWidget {
   final Function()? onTap;
@@ -20,12 +20,12 @@ class OptionConnex extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(width: 2, color: secondColor),
             color: Colors.white,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -34,7 +34,7 @@ class OptionConnex extends StatelessWidget {
                   child: image,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   child: Text(
                     text,
                     style: const TextStyle(

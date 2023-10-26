@@ -21,9 +21,9 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 30,
-        right: 30,
-        top: 15,
+        left: 5,
+        right: 5,
+        top: 10,
       ),
       child: TextFormField(
         onChanged: (value) {
@@ -45,7 +45,7 @@ class MyTextField extends StatelessWidget {
               width: 2,
             ),
             borderRadius: BorderRadius.all(
-              Radius.circular(15),
+              Radius.circular(10),
             ),
           ),
           focusedBorder: const OutlineInputBorder(
@@ -54,7 +54,7 @@ class MyTextField extends StatelessWidget {
               width: 2,
             ),
             borderRadius: BorderRadius.all(
-              Radius.circular(10),
+              Radius.circular(5),
             ),
           ),
           fillColor: Colors.white,

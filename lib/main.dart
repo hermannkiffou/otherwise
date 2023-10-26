@@ -1,15 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:othewise/screens/connexionOptions.dart';
-import 'package:othewise/screens/start2.dart';
-import 'package:othewise/screens/start1.dart';
-import 'package:othewise/screens/loginStart.dart';
-import 'package:othewise/screens/inscription.dart';
-import 'package:othewise/screens/connexion.dart';
-import 'package:othewise/screens/confirmInscription.dart';
-import 'package:othewise/screens/principale.dart';
-import 'package:othewise/components/onBoarging.dart';
-import 'package:othewise/firebase_options.dart';
+import 'package:otherwise/screens/connexionOptions.dart';
+import 'package:otherwise/screens/start2.dart';
+import 'package:otherwise/screens/start1.dart';
+import 'package:otherwise/screens/loginStart.dart';
+import 'package:otherwise/screens/inscription.dart';
+import 'package:otherwise/screens/connexion.dart';
+import 'package:otherwise/screens/confirmInscription.dart';
+import 'package:otherwise/screens/principale.dart';
+import 'package:otherwise/components/onBoarging.dart';
+import 'package:otherwise/firebase_options.dart';
+import 'package:otherwise/transition.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +25,9 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: OnBoarding.id,
+      initialRoute: Transition.id,
       routes: {
+        Transition.id: (conext) => Transition(),
         OnBoarding.id: (context) => OnBoarding(),
         StartedPage.id: (context) => StartedPage(),
         Start2.id: (context) => Start2(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/components/constants.dart';
+import 'package:otherwise/components/constants.dart';
 
 class MyBottomNavBar extends StatefulWidget {
   const MyBottomNavBar({super.key});
@@ -9,11 +9,13 @@ class MyBottomNavBar extends StatefulWidget {
 }
 
 class _MyBottomNavBarState extends State<MyBottomNavBar> {
-  int _index = 0;
-  void _selectOption(int index) {
+  int index = 0;
+
+  void _selectOption(int value) {
     setState(() {
-      _index = index;
+      index = value;
     });
+    print("index est à $index");
   }
 
   @override
@@ -22,7 +24,7 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
       height: 90,
       child: BottomNavigationBar(
         onTap: _selectOption,
-        currentIndex: _index,
+        currentIndex: index,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         unselectedFontSize: 20,

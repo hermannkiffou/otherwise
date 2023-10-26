@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/components/bouton.dart';
-import 'package:othewise/components/constants.dart';
-import 'package:othewise/screens/loginStart.dart';
+import 'package:otherwise/components/bouton.dart';
+import 'package:otherwise/components/constants.dart';
+import 'package:otherwise/screens/loginStart.dart';
 
 class Start2 extends StatelessWidget {
   static const String id = "start2";

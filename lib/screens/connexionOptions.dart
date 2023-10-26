@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/components/constants.dart';
-import 'package:othewise/screens/connexion.dart';
-import 'package:othewise/screens/loginStart.dart';
-import 'package:othewise/components/optionConnex.dart';
+import 'package:otherwise/components/constants.dart';
+import 'package:otherwise/screens/connexion.dart';
+import 'package:otherwise/screens/loginStart.dart';
+import 'package:otherwise/components/optionConnex.dart';
 
 class ConnexionOption extends StatefulWidget {
   static const String id = "connexionOption";
@@ -47,7 +47,7 @@ class _ConnexionOptionState extends State<ConnexionOption> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      "Choisir une option de connexion.",
+                      "Choisir une option d'inscription !",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 25,

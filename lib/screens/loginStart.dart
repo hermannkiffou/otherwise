@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/components/constants.dart';
-import 'package:othewise/components/optionConnex.dart';
-import 'package:othewise/screens/connexionOptions.dart';
-import 'package:othewise/screens/inscription.dart';
+import 'package:otherwise/components/constants.dart';
+import 'package:otherwise/components/optionConnex.dart';
+import 'package:otherwise/screens/connexionOptions.dart';
+import 'package:otherwise/screens/inscription.dart';
 
 class LoginStart extends StatelessWidget {
   static const String id = "loginStart";

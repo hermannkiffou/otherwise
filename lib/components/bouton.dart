@@ -19,14 +19,14 @@ class MyButton extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(
-          left: 40,
-          right: 40,
+          left: 5,
+          right: 5,
         ),
         child: Container(
             height: 60,
             decoration: BoxDecoration(
               color: bgColor,
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(5),
             ),
             child: Center(
               child: Text(

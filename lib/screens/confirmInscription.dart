@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:othewise/components/bouton.dart';
-import 'package:othewise/components/constants.dart';
-import 'package:othewise/components/textField.dart';
-import 'package:othewise/screens/principale.dart';
+import 'package:otherwise/components/bouton.dart';
+import 'package:otherwise/components/constants.dart';
+import 'package:otherwise/components/textField.dart';
+import 'package:otherwise/screens/principale.dart';
 
 class ConfirmInscription extends StatefulWidget {
   static const String id = 'confirmInscription';
