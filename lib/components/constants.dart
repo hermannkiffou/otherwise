@@ -6,7 +6,7 @@ const Color mainColor = Color.fromARGB(255, 106, 80, 220);
 const Color secondColor = Color.fromARGB(255, 186, 78, 44);
 
 void informationMessage(BuildContext context, String message, bool succes,
-    PanaraDialogType typeMessage) async {
+    PanaraDialogType typeMessage, Function() action) async {
   await PanaraInfoDialog.show(
     context,
     title: "Otherwise",
@@ -14,7 +14,7 @@ void informationMessage(BuildContext context, String message, bool succes,
     buttonText: "Fermer",
     onTapDismiss: () {
       if (succes) {
-        Navigator.pushNamed(context, Principale.id);
+        action;
       } else {
         Navigator.pop(context);
       }
@@ -26,7 +26,7 @@ void informationMessage(BuildContext context, String message, bool succes,
 
 confirmationMessage(
     BuildContext context, String message, Function() confirm) async {
-  bool confir = false;
+  bool confirm = false;
   await PanaraConfirmDialog.show(
     context,
     title: "Otherwise",
@@ -34,16 +34,16 @@ confirmationMessage(
     confirmButtonText: "Confirmer",
     cancelButtonText: "Annuler",
     onTapConfirm: () {
-      confirm();
-      print('Confirmé');
       Navigator.pop(context);
+      confirm;
     },
     onTapCancel: () {
-      print('Annulle');
       Navigator.pop(context);
+      confirm;
     },
     panaraDialogType: PanaraDialogType.success,
   );
+  return confirm;
 }
 
 class MessagePrincipal extends StatelessWidget {

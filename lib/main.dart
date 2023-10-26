@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:otherwise/screens/connexionOptions.dart';
+import 'package:otherwise/screens/listArticle.dart';
 import 'package:otherwise/screens/start2.dart';
 import 'package:otherwise/screens/start1.dart';
 import 'package:otherwise/screens/loginStart.dart';
@@ -37,6 +38,7 @@ class Home extends StatelessWidget {
         Connexion.id: (context) => Connexion(),
         ConfirmInscription.id: (context) => ConfirmInscription(),
         Principale.id: (context) => Principale(),
+        ArticleList.id: (context) => ArticleList(),
       },
       home: Principale(),
     );

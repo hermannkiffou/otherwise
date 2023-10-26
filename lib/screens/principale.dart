@@ -105,12 +105,10 @@ class _PrincipaleState extends State<Principale> {
           backgroundColor: mainColor,
           leading: CircleAvatar(
             backgroundColor: Colors.transparent,
-            child: avatar == ""
-                ? Image.asset(
-                    'assets/avatar.png',
-                  )
+            child: avatar != ""
+                ? const Text('Avatar')
                 : Image.asset(
-                    avatar,
+                    'assets/avatar.png',
                   ),
           ),
           actions: [

@@ -23,7 +23,7 @@ class MyTextField extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 5,
         right: 5,
-        top: 10,
+        top: 9,
       ),
       child: TextFormField(
         onChanged: (value) {
@@ -39,6 +39,19 @@ class MyTextField extends StatelessWidget {
         validator: validator,
         onSaved: onSaved,
         decoration: InputDecoration(
+          label: Text(
+            hintText,
+            style: const TextStyle(fontSize: 20),
+          ),
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.orange,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.orange,

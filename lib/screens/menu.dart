@@ -5,6 +5,8 @@ import 'package:otherwise/components/constants.dart';
 import 'package:otherwise/components/loading.dart';
 import 'package:otherwise/components/textField.dart';
 import 'package:otherwise/screens/connexion.dart';
+import 'package:otherwise/screens/listArticle.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
@@ -27,10 +29,11 @@ class _MenuState extends State<Menu> {
   String uid = "";
   String message = "";
 
-  String userId = "";
-  String? userEmail = "hermann@gmail.com";
-  String userName = "Hermann KIFFOU";
-  bool isAdmin = false;
+  String storeUid = "";
+  String id = "";
+  String? email = "hermann@gmail.com";
+  String name = "Hermann KIFFOU";
+  bool admin = false;
   String avatar = "";
   String phone = "";
   String city = "";
@@ -53,10 +56,11 @@ class _MenuState extends State<Menu> {
         for (final user in users.docs) {
           print(user.data());
           setState(() {
-            userName = user.data()['name'];
-            userId = user.data()['id'];
-            userEmail = user.data()['email'];
-            isAdmin = user.data()['admin'];
+            storeUid = user.id;
+            name = user.data()['name'];
+            id = user.data()['id'];
+            email = user.data()['email'];
+            admin = user.data()['admin'];
             avatar = user.data()['avatar'];
             phone = user.data()['phone'];
             city = user.data()['city'];
@@ -67,8 +71,7 @@ class _MenuState extends State<Menu> {
           });
         }
       });
-      print(currentUser.uid);
-      print(currentUser.email);
+      print("Store id $storeUid  uid $uid email $email");
     } else {
       print("Aucun utilisateur trouvé !");
     }
@@ -149,13 +152,52 @@ class _MenuState extends State<Menu> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        isAdmin ? Text("ADMIN") : Text('USER'),
+                                        admin ? Text("ADMIN") : Text('USER'),
                                         SizedBox(
                                           width: 40,
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                              showDialog(context: context, builder: (BuildContext (context){}))
+                                            filInForm();
+                                            showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                        "Modifiez vos informations "),
+                                                    content: updateUserForm(),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: Text("Annuler"),
+                                                      ),
+                                                      loading
+                                                          ? Loading(
+                                                              color:
+                                                                  secondColor,
+                                                              size: 40,
+                                                            )
+                                                          : ElevatedButton(
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  loading =
+                                                                      true;
+                                                                });
+                                                                updateAction();
+                                                                setState(() {
+                                                                  loading =
+                                                                      false;
+                                                                });
+                                                              },
+                                                              child: Text(
+                                                                  "Modifier"),
+                                                            ),
+                                                    ],
+                                                  );
+                                                });
                                           },
                                           child: Text(
                                             "Modifier Profil",
@@ -166,7 +208,7 @@ class _MenuState extends State<Menu> {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Text("NOM : $userName"),
+                                    Text("NOM : $name"),
                                     SizedBox(
                                       height: 5,
                                     ),
@@ -177,7 +219,7 @@ class _MenuState extends State<Menu> {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Text("EMAIL : $userEmail"),
+                                    Text("EMAIL : $email"),
                                   ],
                                 ),
                               ],
@@ -244,72 +286,79 @@ class _MenuState extends State<Menu> {
                     //   height: 10,
                     // ),
                     Container(
-                      height: MediaQuery.of(context).size.height / 1.4,
+                      height: MediaQuery.of(context).size.height / 1.3,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(color: Colors.white),
-                      child: Column(
-                        children: [
-                          Text("MES OPTIONS"),
-                          Text("--------------------------------------------"),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Liste des Articles"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Liste des Articles"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Liste des Articles"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Liste des Articles"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Commandes Livrées [Terminées]"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Commandes Annulées [Rejetées]"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Gestion des utilisateurs"),
-                          ),
-                          Text("-----------------------------"),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Mes Articles Floor"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Mes cotisations"),
-                          ),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Mes commandes"),
-                          ),
-                          Text("-----------------------------"),
-                          TextButton(
-                            onPressed: () {
-                              confirmationMessage(
-                                context,
-                                "Confirmez vous l",
-                                () => _logOut(),
-                              );
-                            },
-                            child: Text(
-                              "Déconnexion",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: secondColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("MES OPTIONS"),
+                            const Text(
+                                "--------------------------------------------"),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, ArticleList.id),
+                              child: Text("Liste des Articles"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Liste des Articles"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Liste des Articles"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Liste des Articles"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Commandes Livrées [Terminées]"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Commandes Annulées [Rejetées]"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Gestion des utilisateurs"),
+                            ),
+                            Text("-----------------------------"),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Mes Articles Floor"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Mes cotisations"),
+                            ),
+                            TextButton(
+                              onPressed: null,
+                              child: Text("Mes commandes"),
+                            ),
+                            Text("-----------------------------"),
+                            TextButton(
+                              onPressed: () {
+                                confirmationMessage(
+                                  context,
+                                  "Confirmez vous la déconnexion",
+                                  () => _logOut(),
+                                );
+                              },
+                              child: Text(
+                                "Déconnexion",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: secondColor,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -332,51 +381,117 @@ class _MenuState extends State<Menu> {
     });
   }
 
-  Widget updateUserForm() {
+  filInForm() {
+    setState(() {
+      nameController.text = name;
+      phoneController.text = phone;
+      cityController.text = city;
+      countryController.text = country;
+      adresseController.text = adresse;
+    });
+  }
+
+  updateAction() async {
+    if ((nameController.text != "") &&
+        (phoneController.text != "") &&
+        (cityController.text != "") &&
+        (countryController.text != "") &&
+        (nameController.text != "") &&
+        (adresseController.text != "")) {
+      var currentUser = auth.currentUser;
+      if (currentUser != null) {
+        var updateUser =
+            await _firestore.collection('user').doc(storeUid).update({
+          'name': nameController.text,
+          'phone': phoneController.text,
+          'city': cityController.text,
+          'country': countryController.text,
+          'adresse': adresseController.text,
+        }).then(
+          (value) {
+            _getCurrentUserInfo();
+            informationMessage(
+                context,
+                "Vos informations ont été modifiées avec succès !",
+                true,
+                PanaraDialogType.success);
+          },
+        ).catchError((error) {
+          informationMessage(
+              context,
+              "Echec de la modification des vos données ! $error id $id",
+              false,
+              PanaraDialogType.error);
+        });
+      }
+    } else {
+      informationMessage(
+          context,
+          "Vous devez renseigner tous les champs de saisie",
+          false,
+          PanaraDialogType.normal);
+    }
+  }
+
+  updateUserForm() {
     return Container(
-      child: Column(
-        children: [
-          MyTextField(
-            controller: nameController,
-            hintText: "Nom et Prénoms",
-            obscureText: false,
-            textInputType: TextInputType.name,
-            validator: (value) {},
-            onSaved: (value) {
-              nameController.text = value;
-            },
-          ),
-          MyTextField(
-            controller: cityController,
-            hintText: "Entre ",
-            obscureText: false,
-            textInputType: TextInputType.name,
-            validator: (value) {},
-            onSaved: (value) {
-              cityController.text = value;
-            },
-          ),
-          MyTextField(
-            controller: countryController,
-            hintText: "Pays",
-            obscureText: false,
-            textInputType: TextInputType.text,
-            validator: (value) {},
-            onSaved: (value) {
-              countryController.text = value;
-            },
-          ),
-          MyTextField(
-            controller: adresseController,
-            hintText: "Adresse Geographique",
-            obscureText: false,
-            textInputType: TextInputType.text,
-            validator: (value) {},
-            onSaved: (value) {
-              adresseController.text = value;
-            },
-          ),
-        ],
+      height: MediaQuery.of(context).size.height / 2.5,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            MyTextField(
+              controller: nameController,
+              hintText: "Nom et Prénoms",
+              obscureText: false,
+              textInputType: TextInputType.name,
+              validator: (value) {},
+              onSaved: (value) {
+                nameController.text = value;
+              },
+            ),
+            MyTextField(
+              controller: phoneController,
+              hintText: "Numéro de téléphone",
+              obscureText: false,
+              textInputType: TextInputType.number,
+              validator: (value) {},
+              onSaved: (value) {
+                nameController.text = value;
+              },
+            ),
+            MyTextField(
+              controller: cityController,
+              hintText: "Ville",
+              obscureText: false,
+              textInputType: TextInputType.text,
+              validator: (value) {},
+              onSaved: (value) {
+                cityController.text = value;
+              },
+            ),
+            MyTextField(
+              controller: countryController,
+              hintText: "Pays",
+              obscureText: false,
+              textInputType: TextInputType.text,
+              validator: (value) {},
+              onSaved: (value) {
+                countryController.text = value;
+              },
+            ),
+            MyTextField(
+              controller: adresseController,
+              hintText: "Adresse Geographique",
+              obscureText: false,
+              textInputType: TextInputType.text,
+              validator: (value) {},
+              onSaved: (value) {
+                adresseController.text = value;
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
