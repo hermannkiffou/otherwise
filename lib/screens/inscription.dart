@@ -167,7 +167,9 @@ class _InscriptionState extends State<Inscription> {
                             ),
                           )
                         : MyButton(
-                            onTap: _inscription,
+                            onTap: () {
+                              _inscription();
+                            },
                             text: "S'inscrire",
                             textColor: Colors.white,
                             bgColor: mainColor,
@@ -176,27 +178,27 @@ class _InscriptionState extends State<Inscription> {
                 ),
                 _separation,
                 _separation,
-                const Text("Autres options de connection !"),
-                _separation,
-                OptionConnex(
-                  onTap: () {
-                    confirmationMessage(
-                      context,
-                      "Confirmer vous cette opératioin ?",
-                      sup,
-                    );
-                  },
-                  image: Image.asset("assets/google.png"),
-                  text: "Connexion par Google",
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                OptionConnex(
-                  onTap: null,
-                  image: Image.asset("assets/facebook.png"),
-                  text: 'Connexion par Facebook',
-                ),
+                // const Text("Autres options de connection !"),
+                // _separation,
+                // OptionConnex(
+                //   onTap: () {
+                //     confirmationMessage(
+                //       context,
+                //       "Confirmer vous cette opératioin ?",
+                //       sup,
+                //     );
+                //   },
+                //   image: Image.asset("assets/google.png"),
+                //   text: "Connexion par Google",
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // OptionConnex(
+                //   onTap: null,
+                //   image: Image.asset("assets/facebook.png"),
+                //   text: 'Connexion par Facebook',
+                // ),
                 TextButton(
                   onPressed: () => Navigator.pushNamed(context, Connexion.id),
                   child: const Text(
@@ -276,6 +278,18 @@ class _InscriptionState extends State<Inscription> {
               _setLocalUser(user!.uid);
 
               message = "Votre compte a été créé avec succès !";
+              PanaraInfoDialog.show(
+                context,
+                title: "Otherwise",
+                message: "Votre compte a été créé avec succès !",
+                buttonText: "Fermer",
+                onTapDismiss: () {
+                  Navigator.pushNamed(context, Connexion.id);
+                },
+                panaraDialogType: PanaraDialogType.success,
+                barrierDismissible: false,
+              );
+
               setState(() {
                 status = true;
               });
@@ -303,11 +317,19 @@ class _InscriptionState extends State<Inscription> {
     });
     // MESSAGE
     if (message != "") {
-      informationMessage(
+      PanaraInfoDialog.show(
         context,
-        message,
-        status,
-        status ? PanaraDialogType.success : PanaraDialogType.error,
+        title: "Otherwise",
+        message: message,
+        buttonText: "Fermer",
+        onTapDismiss: () {
+          status
+              ? Navigator.pushNamed(context, Connexion.id)
+              : Navigator.pop(context);
+        },
+        panaraDialogType:
+            status ? PanaraDialogType.success : PanaraDialogType.warning,
+        barrierDismissible: status,
       );
     }
 

@@ -16,14 +16,15 @@ class ArticleList extends StatefulWidget {
 class _ArticleListState extends State<ArticleList> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   TextEditingController libelleController = TextEditingController();
   TextEditingController prixUnitaireController = TextEditingController();
   TextEditingController quantiteController = TextEditingController();
 
   String libelle = "";
-  int? prixUnitaire = 0;
-  int? quantite = 0;
+  int prixUnitaire = 0;
+  int quantite = 0;
   String image = "";
   bool loading = false;
 
@@ -36,9 +37,14 @@ class _ArticleListState extends State<ArticleList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          leading: GestureDetector(
+        child: const Text("Retour"),
+        onTap: () => Navigator.pop(context),
+      )),
       body: Column(
         children: [
-          Center(
+          const Center(
             child: Text("Afficher List Article"),
           ),
           Center(
@@ -56,12 +62,12 @@ class _ArticleListState extends State<ArticleList> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("Ajouez des Articles !"),
+                  title: const Text("Ajouez des Articles !"),
                   content: addArticleForm(),
                   actions: [
                     ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text("Annuler"),
+                      child: const Text("Annuler"),
                     ),
                     loading
                         ? Loading(
@@ -73,30 +79,32 @@ class _ArticleListState extends State<ArticleList> {
                               setState(() {
                                 loading = true;
                               });
-                              addArticle();
+                              addArticleFinale();
                               setState(() {
                                 loading = false;
                               });
                             },
-                            child: Text("Ajouter"),
+                            child: const Text("Ajouter"),
                           ),
                   ],
                 );
               });
         },
-        label: Text("Ajouter un article"),
+        label: const Text("Ajouter un article"),
       ),
     );
   }
 
   addArticle() async {
     libelle = libelleController.text;
-    prixUnitaire = int.tryParse(prixUnitaireController.text);
-    quantite = int.tryParse(quantiteController.text);
+    prixUnitaire = int.tryParse(prixUnitaireController.text)!;
+    quantite = int.tryParse(quantiteController.text)!;
+    print("$prixUnitaire ! prix unitaire");
+    print('MESSAGE 1');
     image = "Lien Image";
-    if (!(libelle != "") &&
-        (prixUnitaire != null) &&
-        (quantite != null) &&
+    if ((libelle != "") &&
+        (prixUnitaire != 0) &&
+        (quantite != 0) &&
         (image != "")) {
       var article = await _firestore.collection("article").add({
         'libelle': libelle, // John Doe
@@ -106,7 +114,7 @@ class _ArticleListState extends State<ArticleList> {
       }).then(
         (value) {
           informationMessage(context, "Article Ajouté avec succès !", true,
-              PanaraDialogType.success);
+              PanaraDialogType.success, () => Navigator.pop(context));
         },
       ).catchError((error) {
         informationMessage(
@@ -114,16 +122,60 @@ class _ArticleListState extends State<ArticleList> {
           "Echec de l'ajout de l'article. Veuillez reessayer plus tard !",
           false,
           PanaraDialogType.error,
+          () => Navigator.pop(context),
         );
       });
     } else {
-      informationMessage(
+      PanaraInfoDialog.show(
         context,
-        "Vous devez renseigner tous les champs de saisie.",
-        false,
-        PanaraDialogType.warning,
-        () => Navigator.pop(context),
+        title: "Otherwise",
+        message: "Vous devez renseigner tous les champs de saisie !",
+        buttonText: "Fermer",
+        onTapDismiss: () {
+          Navigator.pop(context);
+        },
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: false,
       );
+    }
+  }
+
+  addArticleFinale() async {
+    if ((libelleController.text.isEmpty) ||
+        (prixUnitaireController.text.isEmpty) ||
+        (quantiteController.text.isEmpty)) {
+      PanaraConfirmDialog.show(
+        context,
+        title: "Otherwise",
+        message: "Vous devez renseigner tous c",
+        confirmButtonText: "Confirmer",
+        cancelButtonText: "Annuler",
+        onTapConfirm: () {
+          Navigator.pop(context);
+        },
+        onTapCancel: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.success,
+      );
+    } else {
+      var article = await _firestore.collection("article").add({
+        'libelle': libelle, // John Doe
+        'prix': prixUnitaire, // Stokes and Sons
+        'quantité': quantite,
+        'image': image,
+      }).then(
+        (value) {
+          informationMessage(context, "Article Ajouté avec succès !", true,
+              PanaraDialogType.success, () => Navigator.pop(context));
+        },
+      ).catchError((error) {
+        informationMessage(
+          context,
+          "Echec de l'ajout de l'article. Veuillez reessayer plus tard !",
+          false,
+          PanaraDialogType.error,
+          () => Navigator.pop(context),
+        );
+      });
     }
   }
 
@@ -139,7 +191,11 @@ class _ArticleListState extends State<ArticleList> {
               hintText: "libellé",
               obscureText: false,
               textInputType: TextInputType.name,
-              validator: (value) {},
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "Vous devez rensigner le libellé";
+                }
+              },
               onSaved: (value) {
                 libelleController.text = value;
               },
@@ -164,7 +220,7 @@ class _ArticleListState extends State<ArticleList> {
                 quantiteController.text = value;
               },
             ),
-            Icon(Icons.add_a_photo),
+            const Icon(Icons.add_a_photo),
             Container(
               color: Colors.grey[350],
               height: 150,

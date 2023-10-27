@@ -175,30 +175,76 @@ class _PrincipaleState extends State<Principale> {
       body: loading
           ? Center(child: Loading(size: 50, color: mainColor))
           : index == 0
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        confirmationMessage(context,
-                            'Confirmez vous la déconnexion ?', () => _logOut());
-                        _logOut();
-                        Navigator.pushNamed(context, Connexion.id);
-                      },
-                      child: Text("Déconnexion"),
-                    ),
-                    const Text(
-                      "Bienvenu",
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 20),
+                        child: Container(
+                          color: mainColor,
+                          height: MediaQuery.of(context).size.height / 3,
+                          child: Image.asset("assets/principale1.png"),
+                        ),
+                      ),
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(),
+                            child: Image.asset("assets/principale2.png"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 100,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "SERVICE FLOOR",
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: secondColor,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "Vendez vos vieux livres et romans. Acheter des livres de seconde main à moindre coût.",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        child: Image.asset("assets/principale3.png"),
+                      ),
+                      const Text(
+                        "Bienvenu",
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 )
               : index == 1
                   ? const Shop()
-                  : index == 2
-                      ? const Panier()
-                      : const Menu(),
+                  : const Menu(),
       bottomNavigationBar: SizedBox(
         height: 90,
         child: BottomNavigationBar(
@@ -235,10 +281,6 @@ class _PrincipaleState extends State<Principale> {
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_bag),
               label: 'Shop',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_sharp),
-              label: 'Panier',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),

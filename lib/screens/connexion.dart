@@ -86,7 +86,9 @@ class _ConnexionState extends State<Connexion> {
 
       if (message != "") {
         // ignore: use_build_context_synchronously
-        informationMessage(context, message, false, PanaraDialogType.error);
+        informationMessage(context, message, false, PanaraDialogType.error, () {
+          Navigator.pop(context);
+        });
         message = "";
       }
       // Navigator.pushNamed(context, Principale.id);
@@ -210,29 +212,30 @@ class _ConnexionState extends State<Connexion> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        child: Text(
-                          "Autres option de connexion ",
-                        ),
-                        height: 30,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      OptionConnex(
-                          onTap: null,
-                          image: Image.asset('assets/google.png'),
-                          text: "Connexion par google !"),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      OptionConnex(
-                          onTap: null,
-                          image: Image.asset('assets/facebook.png'),
-                          text: "Connxion par Facebook !"),
+                      // const SizedBox(
+                      //   child: Text(
+                      //     "Autres option de connexion ",
+                      //   ),
+                      //   height: 30,
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // OptionConnex(
+                      //     onTap: null,
+                      //     image: Image.asset('assets/google.png'),
+                      //     text: "Connexion par google !"),
+                      // const SizedBox(
+                      //   height: 5,
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // OptionConnex(
+                      //   onTap: null,
+                      //   image: Image.asset('assets/facebook.png'),
+                      //   text: "Connxion par Facebook !",
+                      // ),
                     ],
                   ),
                 ),

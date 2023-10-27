@@ -304,49 +304,21 @@ class _MenuState extends State<Menu> {
                               child: Text("Liste des Articles"),
                             ),
                             TextButton(
-                              onPressed: null,
-                              child: Text("Liste des Articles"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Liste des Articles"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Liste des Articles"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Commandes Livrées [Terminées]"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Commandes Annulées [Rejetées]"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Gestion des utilisateurs"),
-                            ),
-                            Text("-----------------------------"),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Mes Articles Floor"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Mes cotisations"),
-                            ),
-                            TextButton(
-                              onPressed: null,
-                              child: Text("Mes commandes"),
-                            ),
-                            Text("-----------------------------"),
-                            TextButton(
                               onPressed: () {
-                                confirmationMessage(
+                                PanaraConfirmDialog.show(
                                   context,
-                                  "Confirmez vous la déconnexion",
-                                  () => _logOut(),
+                                  title: "Otherwise",
+                                  message: "Confirmer vous la déconnexion ?",
+                                  confirmButtonText: "Confirmer",
+                                  cancelButtonText: "Annuler",
+                                  onTapConfirm: () {
+                                    _logOut();
+                                    Navigator.pushNamed(context, Connexion.id);
+                                  },
+                                  onTapCancel: () {
+                                    Navigator.pop(context);
+                                  },
+                                  panaraDialogType: PanaraDialogType.normal,
                                 );
                               },
                               child: Text(
@@ -370,12 +342,10 @@ class _MenuState extends State<Menu> {
     setState(() {
       loading = true;
     });
-
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString('uid', '');
     pref.setBool('connected', false);
     auth.signOut();
-    Navigator.pushNamed(context, Connexion.id);
     setState(() {
       loading = false;
     });
@@ -411,25 +381,31 @@ class _MenuState extends State<Menu> {
           (value) {
             _getCurrentUserInfo();
             informationMessage(
-                context,
-                "Vos informations ont été modifiées avec succès !",
-                true,
-                PanaraDialogType.success);
+              context,
+              "Vos informations ont été modifiées avec succès !",
+              true,
+              PanaraDialogType.success,
+              () => Navigator.pop(context),
+            );
           },
         ).catchError((error) {
           informationMessage(
-              context,
-              "Echec de la modification des vos données ! $error id $id",
-              false,
-              PanaraDialogType.error);
+            context,
+            "Echec de la modification des vos données ! $error id $id",
+            false,
+            PanaraDialogType.error,
+            () => Navigator.pop(context),
+          );
         });
       }
     } else {
       informationMessage(
-          context,
-          "Vous devez renseigner tous les champs de saisie",
-          false,
-          PanaraDialogType.normal);
+        context,
+        "Vous devez renseigner tous les champs de saisie",
+        false,
+        PanaraDialogType.normal,
+        () => Navigator.pop(context),
+      );
     }
   }
 

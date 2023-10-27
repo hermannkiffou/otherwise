@@ -26,7 +26,6 @@ void informationMessage(BuildContext context, String message, bool succes,
 
 confirmationMessage(
     BuildContext context, String message, Function() confirm) async {
-  bool confirm = false;
   await PanaraConfirmDialog.show(
     context,
     title: "Otherwise",
@@ -34,16 +33,13 @@ confirmationMessage(
     confirmButtonText: "Confirmer",
     cancelButtonText: "Annuler",
     onTapConfirm: () {
-      Navigator.pop(context);
       confirm;
     },
     onTapCancel: () {
       Navigator.pop(context);
-      confirm;
     },
     panaraDialogType: PanaraDialogType.success,
   );
-  return confirm;
 }
 
 class MessagePrincipal extends StatelessWidget {
