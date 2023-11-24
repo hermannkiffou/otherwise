@@ -28,7 +28,6 @@ class _MenuState extends State<Menu> {
 
   String uid = "";
   String message = "";
-
   String storeUid = "";
   String id = "";
   String? email = "hermann@gmail.com";
@@ -42,7 +41,6 @@ class _MenuState extends State<Menu> {
   int solde = 0;
   int redevence = 0;
   bool loading = false;
-
   int index = 0;
 
   _getCurrentUserInfo() async {
@@ -102,46 +100,60 @@ class _MenuState extends State<Menu> {
                     Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height / 2.5,
+                        height: MediaQuery.of(context).size.height / 1.8,
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: BorderRadius.all(Radius.circular(13)),
                           color: Colors.white,
                         ),
                         child: Column(
                           children: [
                             Row(
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 10.0,
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 50,
-                                        backgroundImage: AssetImage(
-                                          'assets/avatar.png',
-                                        ),
-                                        backgroundColor: Colors.transparent,
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(13),
                                       ),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        print("Modifier Avatar");
-                                      },
-                                      child: Text(
-                                        'Editer',
-                                        style: TextStyle(
-                                          color: secondColor,
-                                          fontWeight: FontWeight.bold,
+                                    height: 170,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 10.0,
+                                            left: 10,
+                                            right: 10,
+                                          ),
+                                          child: CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: AssetImage(
+                                              'assets/avatar.png',
+                                            ),
+                                            backgroundColor: Colors.transparent,
+                                          ),
                                         ),
-                                      ),
+                                        TextButton(
+                                          onPressed: () {
+                                            print("Modifier Avatar");
+                                          },
+                                          child: Text(
+                                            'Editer',
+                                            style: TextStyle(
+                                                color: secondColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                                 Column(
                                   mainAxisAlignment:
@@ -152,8 +164,22 @@ class _MenuState extends State<Menu> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        admin ? Text("ADMIN") : Text('USER'),
-                                        SizedBox(
+                                        admin
+                                            ? const Text(
+                                                "ADMIN",
+                                                style: TextStyle(
+                                                  color: secondColor,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : const Text(
+                                                'USER',
+                                                style: TextStyle(
+                                                  color: secondColor,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                        const SizedBox(
                                           width: 40,
                                         ),
                                         ElevatedButton(
@@ -208,7 +234,9 @@ class _MenuState extends State<Menu> {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Text("NOM : $name"),
+                                    Text(
+                                      "NOM : $name",
+                                    ),
                                     SizedBox(
                                       height: 5,
                                     ),
@@ -224,55 +252,147 @@ class _MenuState extends State<Menu> {
                                 ),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  decoration: BoxDecoration(),
-                                  child: Column(
-                                    children: [
-                                      Text("VILLE : $city"),
-                                      Text("PAYS : $country"),
-                                      Text("ADRESSE GEO : "),
-                                      Text("$adresse"),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 145,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.4,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: secondColor,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
                                       child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "SOLDE : ",
+                                            "VILLE : $city",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
                                           ),
                                           Text(
-                                            "$solde FR CFA ",
+                                            "PAYS : $country",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            "ADRESSE GEO : ",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text("$adresse"),
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "SOLDE : ",
+                                  ),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 70,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10),
                                           ),
-                                          Text(
-                                            "$redevence FR CFA ",
+                                          border: Border.all(
+                                            width: 2,
+                                            color: secondColor,
                                           ),
-                                        ],
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            const Text(
+                                              "SOLDE : ",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: secondColor,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Text(
+                                              "$solde FR CFA ",
+                                              style: TextStyle(
+                                                color: secondColor,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        height: 65,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                          border: Border.all(
+                                            width: 2,
+                                            color: secondColor,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "REDEVENCE : ",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: secondColor,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Text(
+                                              "$redevence FR CFA ",
+                                              style: TextStyle(
+                                                color: secondColor,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                            TextButton(
+                            const TextButton(
                               onPressed: null,
                               child: Text(
                                 "Modifier mon mot de passe",
@@ -286,7 +406,7 @@ class _MenuState extends State<Menu> {
                     //   height: 10,
                     // ),
                     Container(
-                      height: MediaQuery.of(context).size.height / 1.3,
+                      height: MediaQuery.of(context).size.height / 4,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(color: Colors.white),
                       child: Padding(
@@ -295,9 +415,14 @@ class _MenuState extends State<Menu> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("MES OPTIONS"),
                             const Text(
-                                "--------------------------------------------"),
+                              "MES OPTIONS",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: secondColor),
+                            ),
+                            const Text(""),
                             TextButton(
                               onPressed: () =>
                                   Navigator.pushNamed(context, ArticleList.id),
@@ -380,12 +505,17 @@ class _MenuState extends State<Menu> {
         }).then(
           (value) {
             _getCurrentUserInfo();
-            informationMessage(
+            PanaraInfoDialog.show(
               context,
-              "Vos informations ont été modifiées avec succès !",
-              true,
-              PanaraDialogType.success,
-              () => Navigator.pop(context),
+              title: "Otherwise",
+              message: "Vos informations on été modifiées avec succès.",
+              buttonText: "Fermer",
+              onTapDismiss: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              panaraDialogType: PanaraDialogType.success,
+              barrierDismissible: false,
             );
           },
         ).catchError((error) {

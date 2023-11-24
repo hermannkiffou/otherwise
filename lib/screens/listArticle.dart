@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:otherwise/components/constants.dart';
 import 'package:otherwise/components/loading.dart';
 import 'package:otherwise/components/textField.dart';
+import 'package:otherwise/main.dart';
+import 'package:otherwise/screens/loginStart.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
 class ArticleList extends StatefulWidget {
@@ -27,6 +30,23 @@ class _ArticleListState extends State<ArticleList> {
   int quantite = 0;
   String image = "";
   bool loading = false;
+  bool _initialized = false;
+  bool _error = false;
+
+  void initializeFlutterFire() async {
+    try {
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (error) {
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  List<Widget> mesArticles = [];
 
   @override
   void initState() {
@@ -36,6 +56,14 @@ class _ArticleListState extends State<ArticleList> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_initialized) {
+      return Center(
+        child: Loading(
+          size: 60,
+          color: mainColor,
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
           leading: GestureDetector(
@@ -43,20 +71,49 @@ class _ArticleListState extends State<ArticleList> {
         onTap: () => Navigator.pop(context),
       )),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Center(
-            child: Text("Afficher List Article"),
-          ),
-          Center(
-            child: TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Retour"),
-            ),
-          ),
+          StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('article').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                      "Echec de l'affichage des données ! Code erreur : ${snapshot.error.toString()}");
+                }
+
+                if (!snapshot.hasData) {
+                  Center(
+                    child: Loading(size: 50, color: mainColor),
+                  );
+                }
+
+                QuerySnapshot data = snapshot.requireData;
+                return Expanded(
+                  child: ListView.builder(
+                      itemCount: data.size,
+                      itemBuilder: (context, index) {
+                        Map item = data.docs[index].data() as Map;
+                        return Card(
+                          child: ListTile(
+                            leading: Icon(Icons.article),
+                            title: Text(
+                              item['libelle'],
+                            ),
+                            subtitle: Text("Prix unitaire : ${item['prix']}"),
+                          ),
+                        );
+                      }),
+                );
+              }),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          libelleController.clear();
+          prixUnitaireController.clear();
+          quantiteController.clear();
           showDialog(
               barrierDismissible: false,
               context: context,
@@ -93,6 +150,15 @@ class _ArticleListState extends State<ArticleList> {
         label: const Text("Ajouter un article"),
       ),
     );
+  }
+
+  getAllArticle() async {
+    var storedArticle =
+        await _firestore.collection('article').get().then((articles) {
+      for (final article in articles.docs) {
+        print(article.data());
+      }
+    });
   }
 
   addArticle() async {
@@ -144,17 +210,16 @@ class _ArticleListState extends State<ArticleList> {
     if ((libelleController.text.isEmpty) ||
         (prixUnitaireController.text.isEmpty) ||
         (quantiteController.text.isEmpty)) {
-      PanaraConfirmDialog.show(
+      PanaraInfoDialog.show(
         context,
         title: "Otherwise",
-        message: "Vous devez renseigner tous c",
-        confirmButtonText: "Confirmer",
-        cancelButtonText: "Annuler",
-        onTapConfirm: () {
+        message: "Vous devez renseigner tous les champs de saisie :",
+        buttonText: "Fermer",
+        onTapDismiss: () {
           Navigator.pop(context);
         },
-        onTapCancel: () => Navigator.pop(context),
-        panaraDialogType: PanaraDialogType.success,
+        panaraDialogType: PanaraDialogType.warning,
+        barrierDismissible: false,
       );
     } else {
       var article = await _firestore.collection("article").add({
@@ -164,16 +229,34 @@ class _ArticleListState extends State<ArticleList> {
         'image': image,
       }).then(
         (value) {
-          informationMessage(context, "Article Ajouté avec succès !", true,
-              PanaraDialogType.success, () => Navigator.pop(context));
+          setState(() {
+            getAllArticle();
+          });
+          PanaraInfoDialog.show(
+            context,
+            title: "Otherwise",
+            message: "Article ajouté avec succès.",
+            buttonText: "Fermer",
+            onTapDismiss: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            panaraDialogType: PanaraDialogType.success,
+            barrierDismissible: false,
+          );
         },
       ).catchError((error) {
-        informationMessage(
+        PanaraInfoDialog.show(
           context,
-          "Echec de l'ajout de l'article. Veuillez reessayer plus tard !",
-          false,
-          PanaraDialogType.error,
-          () => Navigator.pop(context),
+          title: "Otherwise",
+          message:
+              "Il y a eu une erreur dans votre demande; Reéssayez plus tard !",
+          buttonText: "Fermer",
+          onTapDismiss: () {
+            Navigator.pop(context);
+          },
+          panaraDialogType: PanaraDialogType.warning,
+          barrierDismissible: false,
         );
       });
     }

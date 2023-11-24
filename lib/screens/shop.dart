@@ -12,7 +12,7 @@ class _ShopState extends State<Shop> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Shopping page'),
+        child: Text("Pas d'article ajoutés !"),
       ),
     );
   }

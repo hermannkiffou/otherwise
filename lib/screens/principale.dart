@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:otherwise/components/bottomNav.dart';
 import 'package:otherwise/components/constants.dart';
 import 'package:otherwise/components/loading.dart';
-import 'package:otherwise/screens/connexion.dart';
 import 'package:otherwise/screens/menu.dart';
-import 'package:otherwise/screens/panier.dart';
 import 'package:otherwise/screens/shop.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -199,7 +196,7 @@ class _PrincipaleState extends State<Principale> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
-                              height: 100,
+                              height: 110,
                               width: MediaQuery.of(context).size.width,
                               decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -232,12 +229,47 @@ class _PrincipaleState extends State<Principale> {
                           ),
                         ],
                       ),
-                      Container(
-                        child: Image.asset("assets/principale3.png"),
-                      ),
-                      const Text(
-                        "Bienvenu",
-                        textAlign: TextAlign.center,
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(),
+                            child: Image.asset("assets/principale3.png"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "VACANCES ANTICIPEES",
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: secondColor,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "Programmer l'achat de vos fournitures scolaires dans le temps.",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
